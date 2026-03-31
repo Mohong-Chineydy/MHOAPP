@@ -1,7 +1,114 @@
-<!-- 【占位-启动动画SVG】请替换为您的SVG动画文件 -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <circle cx="50" cy="50" r="40" fill="#2196F3">
-        <animate attributeName="r" values="40;45;40" dur="1s" repeatCount="indefinite"/>
-    </circle>
-    <text x="50" y="55" text-anchor="middle" fill="white" font-size="20">MHO</text>
+<svg width="400" height="400" viewBox="-35 -35 70 70" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes frameBuild {
+      0% {
+        stroke-dashoffset: 200;
+        opacity: 0;
+      }
+      25% {
+        opacity: 0.3;
+      }
+      50% {
+        stroke-dashoffset: 60;
+        opacity: 0.65;
+      }
+      75% {
+        stroke-dashoffset: 15;
+        opacity: 0.9;
+      }
+      100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+      }
+    }
+    
+    @keyframes structureBuild {
+      0% {
+        stroke-dashoffset: 100;
+        opacity: 0;
+      }
+      30% {
+        opacity: 0.35;
+        stroke-dashoffset: 65;
+      }
+      60% {
+        opacity: 0.7;
+        stroke-dashoffset: 25;
+      }
+      100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+      }
+    }
+    
+    @keyframes detailBuild {
+      0% {
+        stroke-dashoffset: 120;
+        opacity: 0;
+      }
+      40% {
+        opacity: 0.4;
+        stroke-dashoffset: 45;
+      }
+      70% {
+        opacity: 0.8;
+        stroke-dashoffset: 12;
+      }
+      100% {
+        stroke-dashoffset: 0;
+        opacity: 1;
+      }
+    }
+    
+    .frame-element {
+      stroke-dasharray: 200;
+      animation: frameBuild 2.4s cubic-bezier(0.22, 0.88, 0.36, 1) forwards;
+      opacity: 0;
+    }
+    
+    .structure-element {
+      stroke-dasharray: 100;
+      animation: structureBuild 1.9s cubic-bezier(0.22, 0.88, 0.36, 1) forwards;
+      opacity: 0;
+    }
+    
+    .detail-element {
+      stroke-dasharray: 120;
+      animation: detailBuild 1.5s cubic-bezier(0.22, 0.88, 0.36, 1) forwards;
+      opacity: 0;
+    }
+    
+    .layer-1 { animation-delay: 0s; }
+    .layer-2 { animation-delay: 0.18s; }
+    .layer-3 { animation-delay: 0.38s; }
+    .layer-4 { animation-delay: 0.6s; }
+    .layer-5 { animation-delay: 0.85s; }
+    .layer-6 { animation-delay: 1.12s; }
+  </style>
+  
+  <g stroke="black" stroke-width="1" fill="none">
+    <polygon class="frame-element layer-1" points="0,-30 30,0 0,30 -30,0" />
+    <line class="structure-element layer-2" x1="-30" y1="0" x2="30" y2="0" />
+    <line class="structure-element layer-2" x1="0" y1="-30" x2="0" y2="30" />
+    <rect class="detail-element layer-3" x="-15" y="-15" width="30" height="30" />
+    <line class="structure-element layer-3" x1="-15" y1="-15" x2="15" y2="15" />
+    <line class="structure-element layer-3" x1="-15" y1="15" x2="15" y2="-15" />
+    <rect class="detail-element layer-4" x="-10" y="-10" width="20" height="20" />
+    <line class="detail-element layer-5" x1="10" y1="10" x2="0" y2="30" />
+    <line class="detail-element layer-5" x1="10" y1="10" x2="30" y2="0" />
+    <line class="detail-element layer-5" x1="-10" y1="10" x2="0" y2="30" />
+    <line class="detail-element layer-5" x1="-10" y1="10" x2="-30" y2="0" />
+    <line class="detail-element layer-5" x1="-10" y1="-10" x2="0" y2="-30" />
+    <line class="detail-element layer-5" x1="-10" y1="-10" x2="-30" y2="0" />
+    <line class="detail-element layer-5" x1="10" y1="-10" x2="0" y2="-30" />
+    <line class="detail-element layer-5" x1="10" y1="-10" x2="30" y2="0" />
+    <line class="detail-element layer-6" x1="0" y1="10" x2="-15" y2="15" />
+    <line class="detail-element layer-6" x1="0" y1="10" x2="15" y2="15" />
+    <line class="detail-element layer-6" x1="10" y1="0" x2="15" y2="15" />
+    <line class="detail-element layer-6" x1="10" y1="0" x2="15" y2="-15" />
+    <line class="detail-element layer-6" x1="0" y1="-10" x2="15" y2="-15" />
+    <line class="detail-element layer-6" x1="0" y1="-10" x2="-15" y2="-15" />
+    <line class="detail-element layer-6" x1="-10" y1="0" x2="-15" y2="15" />
+    <line class="detail-element layer-6" x1="-10" y1="0" x2="-15" y2="-15" />
+  </g>
 </svg>

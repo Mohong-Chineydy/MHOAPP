@@ -27,7 +27,7 @@ import com.mho.web.wv.mohong.utils.GestureHelper;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    
+
     private ViewPager2 viewPager;
     private WebViewAdapter adapter;
     private TabManager tabManager;
@@ -35,28 +35,28 @@ public class MainActivity extends AppCompatActivity {
     private FileManager fileManager;
     private GestureHelper gestureHelper;
     private FullscreenMenuDialog menuDialog;
-    
+
     private int currentPosition = 0;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         // 初始化管理器
         fileManager = FileManager.getInstance(this);
         tabManager = TabManager.getInstance(this);
         settingsManager = SettingsManager.getInstance(this);
-        
+
         // 应用设置
         applySettings();
-        
+
         // 创建布局
         FrameLayout layout = new FrameLayout(this);
-        
+
         // 创建ViewPager
         viewPager = new ViewPager2(this);
         viewPager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
-        
+
         // 获取标签页列表
         List<TabInfo> tabs = new java.util.ArrayList<>();
         for (int i = 0; i < tabManager.getTabCount(); i++) {
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 tabs.add(tab);
             }
         }
-        
+
         // 创建适配器
         adapter = new WebViewAdapter(tabs, tabManager, viewPager);
         adapter.setOnPageTitleListener((position, title) -> {
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.setOnPageProgressListener((position, progress) -> {
             // 可在此显示进度
         });
-        
+
         viewPager.setAdapter(adapter);
         viewPager.setOffscreenPageLimit(3);
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
@@ -87,17 +87,17 @@ public class MainActivity extends AppCompatActivity {
                 currentPosition = position;
             }
         });
-        
+
         layout.addView(viewPager);
         setContentView(layout);
-        
+
         // 初始化手势
         setupGestures();
-        
+
         // 恢复保存的滚动位置
         restoreScrollPositions();
     }
-    
+
     private void applySettings() {
         AppSettings settings = settingsManager.getSettings();
         if (settings.isFullscreen()) {
@@ -106,17 +106,17 @@ public class MainActivity extends AppCompatActivity {
         } else {
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
-        
+
         // 应用字体大小到所有WebView
         float fontSizeScale = settingsManager.getFontSizeScale();
         for (int i = 0; i < tabManager.getTabCount(); i++) {
             WebView wv = tabManager.getWebView(i);
             if (wv != null) {
-                wv.getSettings().setTextZoom((int)(fontSizeScale * 100));
+                wv.getSettings().setTextZoom((int) (fontSizeScale * 100));
             }
         }
     }
-    
+
     private void setupGestures() {
         gestureHelper = new GestureHelper(this, new GestureHelper.OnGestureListener() {
             @Override
@@ -125,32 +125,32 @@ public class MainActivity extends AppCompatActivity {
                     tabManager.goForward(currentPosition);
                 }
             }
-            
+
             @Override
             public void onSwipeRight() {
                 if (tabManager.canGoBack(currentPosition)) {
                     tabManager.goBack(currentPosition);
                 }
             }
-            
+
             @Override
             public void onTwoFingerSwipeUp() {
                 showTabBottomSheet();
             }
-            
+
             @Override
             public void onTwoFingerSwipeDown() {
                 showFullscreenMenu();
             }
         });
-        
+
         viewPager.setOnTouchListener((v, event) -> gestureHelper.onTouchEvent(event));
     }
-    
+
     private void showFullscreenMenu() {
         WebView currentWebView = tabManager.getWebView(currentPosition);
         String currentUrl = currentWebView != null ? currentWebView.getUrl() : "";
-        
+
         menuDialog = new FullscreenMenuDialog(this, settingsManager, tabManager, currentPosition, currentUrl);
         menuDialog.setOnMenuItemClickListener(new FullscreenMenuDialog.OnMenuItemClickListener() {
             @Override
@@ -159,25 +159,25 @@ public class MainActivity extends AppCompatActivity {
                     tabManager.goBack(currentPosition);
                 }
             }
-            
+
             @Override
             public void onForward() {
                 if (tabManager.canGoForward(currentPosition)) {
                     tabManager.goForward(currentPosition);
                 }
             }
-            
+
             @Override
             public void onRefresh() {
                 tabManager.reload(currentPosition);
             }
-            
+
             @Override
             public void onHome() {
                 String homePath = fileManager.getHomeSvgPath();
                 tabManager.loadUrl(currentPosition, homePath);
             }
-            
+
             @Override
             public void onShare() {
                 WebView wv = tabManager.getWebView(currentPosition);
@@ -188,29 +188,29 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(Intent.createChooser(shareIntent, "分享链接"));
                 }
             }
-            
+
             @Override
             public void onSettings() {
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
             }
-            
+
             @Override
             public void onCookieManager() {
                 startActivity(new Intent(MainActivity.this, CookieManagerActivity.class));
             }
-            
+
             @Override
             public void onThemePicker() {
                 startActivity(new Intent(MainActivity.this, ThemePickerActivity.class));
             }
-            
+
             @Override
             public void onFullscreenToggle() {
                 boolean isFullscreen = settingsManager.isFullscreen();
                 settingsManager.setFullscreen(!isFullscreen);
                 applySettings();
             }
-            
+
             @Override
             public void onFontSizeChanged(int percent) {
                 settingsManager.setFontSizePercent(percent);
@@ -218,11 +218,11 @@ public class MainActivity extends AppCompatActivity {
                 for (int i = 0; i < tabManager.getTabCount(); i++) {
                     WebView wv = tabManager.getWebView(i);
                     if (wv != null) {
-                        wv.getSettings().setTextZoom((int)(scale * 100));
+                        wv.getSettings().setTextZoom((int) (scale * 100));
                     }
                 }
             }
-            
+
             @Override
             public void onGoToUrl(String url) {
                 if (!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("file://")) {
@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 tabManager.loadUrl(currentPosition, url);
             }
-            
+
             @Override
             public void onOpenTabManager() {
                 showTabBottomSheet();
@@ -238,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
         });
         menuDialog.show();
     }
-    
+
     private void showTabBottomSheet() {
         TabBottomSheet bottomSheet = new TabBottomSheet(this, tabManager, currentPosition);
         bottomSheet.setOnTabSheetListener(new TabBottomSheet.OnTabSheetListener() {
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(int position) {
                 currentPosition = position;
                 viewPager.setCurrentItem(position, false);
-                
+
                 WebView wv = tabManager.getWebView(position);
                 if (wv != null && wv.getUrl() != null && wv.getUrl().isEmpty()) {
                     // 恢复滚动位置
@@ -256,7 +256,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
             }
-            
+
             @Override
             public void onNewTab() {
                 int newIndex = tabManager.createNewTab(fileManager.getHomeSvgPath());
@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "最多支持50个标签页", Toast.LENGTH_SHORT).show();
                 }
             }
-            
+
             @Override
             public void onUrlSubmit(String url) {
                 if (!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("file://")) {
@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
         });
         bottomSheet.show();
     }
-    
+
     private List<TabInfo> getCurrentTabs() {
         List<TabInfo> tabs = new java.util.ArrayList<>();
         for (int i = 0; i < tabManager.getTabCount(); i++) {
@@ -291,7 +291,7 @@ public class MainActivity extends AppCompatActivity {
         }
         return tabs;
     }
-    
+
     private void restoreScrollPositions() {
         for (int i = 0; i < tabManager.getTabCount(); i++) {
             TabInfo tab = tabManager.getTab(i);
@@ -301,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -317,13 +317,13 @@ public class MainActivity extends AppCompatActivity {
         }
         tabManager.saveTabs();
     }
-    
+
     @Override
     protected void onResume() {
         super.onResume();
         applySettings();
     }
-    
+
     @Override
     public void onBackPressed() {
         if (tabManager.canGoBack(currentPosition)) {
@@ -340,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
     }
-    
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

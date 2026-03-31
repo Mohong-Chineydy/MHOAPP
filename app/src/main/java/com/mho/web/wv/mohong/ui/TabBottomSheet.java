@@ -28,52 +28,54 @@ import com.mho.web.wv.mohong.model.TabInfo;
 import java.util.List;
 
 public class TabBottomSheet extends BottomSheetDialog {
-    
+
     private Context context;
     private TabManager tabManager;
     private TabListAdapter adapter;
     private int currentPosition;
     private OnTabSheetListener listener;
-    
+
     public interface OnTabSheetListener {
         void onTabSelected(int position);
+
         void onNewTab();
+
         void onUrlSubmit(String url);
     }
-    
+
     public TabBottomSheet(@NonNull Context context, TabManager tabManager, int currentPosition) {
         super(context);
         this.context = context;
         this.tabManager = tabManager;
         this.currentPosition = currentPosition;
     }
-    
+
     public void setOnTabSheetListener(OnTabSheetListener listener) {
         this.listener = listener;
     }
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+
         View view = LayoutInflater.from(context).inflate(android.R.layout.simple_list_item_1, null);
-        
+
         LinearLayout container = new LinearLayout(context);
         container.setOrientation(LinearLayout.VERTICAL);
         container.setPadding(16, 16, 16, 16);
-        
+
         LinearLayout urlLayout = new LinearLayout(context);
         urlLayout.setOrientation(LinearLayout.HORIZONTAL);
         urlLayout.setPadding(0, 0, 0, 16);
-        
+
         EditText urlInput = new EditText(context);
         urlInput.setHint("输入网址");
         urlInput.setSingleLine(true);
         LinearLayout.LayoutParams urlParams = new LinearLayout.LayoutParams(0,
-                LinearLayout.LayoutParams.WRAP_CONTENT, 1);
+        LinearLayout.LayoutParams.WRAP_CONTENT, 1);
         urlParams.setMargins(0, 0, 8, 0);
         urlInput.setLayoutParams(urlParams);
-        
+
         Button goButton = new Button(context);
         goButton.setText("前往");
         goButton.setOnClickListener(v -> {
@@ -83,17 +85,17 @@ public class TabBottomSheet extends BottomSheetDialog {
                 dismiss();
             }
         });
-        
+
         urlLayout.addView(urlInput);
         urlLayout.addView(goButton);
         container.addView(urlLayout);
-        
+
         TextView titleText = new TextView(context);
         titleText.setText("标签页列表");
         titleText.setTextSize(16);
         titleText.setPadding(0, 8, 0, 8);
         container.addView(titleText);
-        
+
         List<TabInfo> tabs = new java.util.ArrayList<>();
         for (int i = 0; i < tabManager.getTabCount(); i++) {
             TabInfo tab = tabManager.getTab(i);
@@ -101,7 +103,7 @@ public class TabBottomSheet extends BottomSheetDialog {
                 tabs.add(tab);
             }
         }
-        
+
         adapter = new TabListAdapter(tabs, currentPosition);
         adapter.setOnTabClickListener(position -> {
             if (listener != null) {
@@ -120,15 +122,15 @@ public class TabBottomSheet extends BottomSheetDialog {
                 dismiss();
             }
         });
-        
+
         RecyclerView recyclerView = new RecyclerView(context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT));
+        ViewGroup.LayoutParams.MATCH_PARENT,
+        ViewGroup.LayoutParams.WRAP_CONTENT));
         container.addView(recyclerView);
-        
+
         Button newTabButton = new Button(context);
         newTabButton.setText("+ 新建标签页");
         newTabButton.setOnClickListener(v -> {
@@ -138,7 +140,7 @@ public class TabBottomSheet extends BottomSheetDialog {
             }
         });
         container.addView(newTabButton);
-        
+
         setContentView(container);
     }
 }

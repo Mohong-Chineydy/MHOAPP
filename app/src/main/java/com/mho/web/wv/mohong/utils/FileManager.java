@@ -20,40 +20,40 @@ import java.util.Date;
 import java.util.Locale;
 
 public class FileManager {
-    
+
     private static final String TAG = "FileManager";
-    
+
     public static final String MHO_ROOT = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MHO/WEB";
-    
+
     private static final String DIR_SETTINGS = "settings";
     private static final String DIR_TABS = "tabs";
     private static final String DIR_COOKIES = "cookies";
     private static final String DIR_DOWNLOADS = "downloads";
     private static final String DIR_OPSVG = "opSVG";
     private static final String DIR_LOGS = "logs";
-    
+
     private static final String FILE_CONFIG = "config.json";
     private static final String FILE_FONT_SIZE = "font_size.txt";
     private static final String FILE_TABS_LIST = "tabs_list.json";
     private static final String FILE_COOKIES_BACKUP = "cookies_backup.json";
     private static final String FILE_TAB_PREFIX = "tab_";
     private static final String FILE_LOG_PREFIX = "app_";
-    
+
     private Context context;
     private static FileManager instance;
-    
+
     private FileManager(Context context) {
         this.context = context.getApplicationContext();
         initDirectories();
     }
-    
+
     public static synchronized FileManager getInstance(Context context) {
         if (instance == null) {
             instance = new FileManager(context);
         }
         return instance;
     }
-    
+
     private void initDirectories() {
         createDir(MHO_ROOT);
         createDir(MHO_ROOT + "/" + DIR_SETTINGS);
@@ -65,14 +65,14 @@ public class FileManager {
         copyDefaultAssets();
         Log.d(TAG, "初始化目录: " + MHO_ROOT);
     }
-    
+
     private void createDir(String path) {
         File dir = new File(path);
         if (!dir.exists()) {
             dir.mkdirs();
         }
     }
-    
+
     private void copyDefaultAssets() {
         File splashFile = new File(getOpSvgDir(), "splash.svg");
         File homeFile = new File(getOpSvgDir(), "home.svg");
@@ -83,11 +83,11 @@ public class FileManager {
             copyAssetToPublic("home.svg", DIR_OPSVG + "/home.svg");
         }
     }
-    
+
     public void saveSettings(JSONObject settings) throws IOException {
         writeFile(DIR_SETTINGS + "/" + FILE_CONFIG, settings.toString());
     }
-    
+
     public JSONObject loadSettings() {
         try {
             String content = readFile(DIR_SETTINGS + "/" + FILE_CONFIG);
@@ -99,11 +99,11 @@ public class FileManager {
         }
         return null;
     }
-    
+
     public void saveFontSize(int fontSizePercent) throws IOException {
         writeFile(DIR_SETTINGS + "/" + FILE_FONT_SIZE, String.valueOf(fontSizePercent));
     }
-    
+
     public int loadFontSize() {
         try {
             String content = readFile(DIR_SETTINGS + "/" + FILE_FONT_SIZE);
@@ -115,11 +115,11 @@ public class FileManager {
         }
         return 100;
     }
-    
+
     public void saveTabsList(JSONArray tabsArray) throws IOException {
         writeFile(DIR_TABS + "/" + FILE_TABS_LIST, tabsArray.toString());
     }
-    
+
     public JSONArray loadTabsList() {
         try {
             String content = readFile(DIR_TABS + "/" + FILE_TABS_LIST);
@@ -131,11 +131,11 @@ public class FileManager {
         }
         return new JSONArray();
     }
-    
+
     public void saveTabState(int index, JSONObject tabState) throws IOException {
         writeFile(DIR_TABS + "/" + FILE_TAB_PREFIX + index + ".json", tabState.toString());
     }
-    
+
     public JSONObject loadTabState(int index) {
         try {
             String content = readFile(DIR_TABS + "/" + FILE_TAB_PREFIX + index + ".json");
@@ -147,20 +147,20 @@ public class FileManager {
         }
         return null;
     }
-    
+
     public void deleteTabState(int index) {
         deleteFile(DIR_TABS + "/" + FILE_TAB_PREFIX + index + ".json");
     }
-    
+
     public void clearAllTabsState() {
         deleteDir(DIR_TABS);
         createDir(MHO_ROOT + "/" + DIR_TABS);
     }
-    
+
     public void saveCookiesBackup(String cookiesJson) throws IOException {
         writeFile(DIR_COOKIES + "/" + FILE_COOKIES_BACKUP, cookiesJson);
     }
-    
+
     public String loadCookiesBackup() {
         try {
             return readFile(DIR_COOKIES + "/" + FILE_COOKIES_BACKUP);
@@ -169,7 +169,7 @@ public class FileManager {
         }
         return null;
     }
-    
+
     public void writeLog(String message) {
         try {
             String dateStr = new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(new Date());
@@ -183,7 +183,7 @@ public class FileManager {
             Log.e(TAG, "写入日志失败", e);
         }
     }
-    
+
     public File getDownloadDir() {
         File dir = new File(MHO_ROOT + "/" + DIR_DOWNLOADS);
         if (!dir.exists()) {
@@ -191,7 +191,7 @@ public class FileManager {
         }
         return dir;
     }
-    
+
     public File getOpSvgDir() {
         File dir = new File(MHO_ROOT + "/" + DIR_OPSVG);
         if (!dir.exists()) {
@@ -199,7 +199,7 @@ public class FileManager {
         }
         return dir;
     }
-    
+
     public String getSplashSvgPath() {
         File userSvg = new File(getOpSvgDir(), "splash.svg");
         if (userSvg.exists()) {
@@ -207,7 +207,7 @@ public class FileManager {
         }
         return "file:///android_asset/splash.svg";
     }
-    
+
     public String getHomeSvgPath() {
         File userSvg = new File(getOpSvgDir(), "home.svg");
         if (userSvg.exists()) {
@@ -215,7 +215,7 @@ public class FileManager {
         }
         return "file:///android_asset/home.svg";
     }
-    
+
     private void writeFile(String relativePath, String content) throws IOException {
         String fullPath = MHO_ROOT + "/" + relativePath;
         File file = new File(fullPath);
@@ -227,7 +227,7 @@ public class FileManager {
             fos.write(content.getBytes(StandardCharsets.UTF_8));
         }
     }
-    
+
     private String readFile(String relativePath) throws IOException {
         String fullPath = MHO_ROOT + "/" + relativePath;
         File file = new File(fullPath);
@@ -240,14 +240,14 @@ public class FileManager {
             return new String(data, StandardCharsets.UTF_8);
         }
     }
-    
+
     private void deleteFile(String relativePath) {
         File file = new File(MHO_ROOT + "/" + relativePath);
         if (file.exists()) {
             file.delete();
         }
     }
-    
+
     private void deleteDir(String relativePath) {
         File dir = new File(MHO_ROOT + "/" + relativePath);
         if (dir.exists() && dir.isDirectory()) {
@@ -260,7 +260,7 @@ public class FileManager {
             dir.delete();
         }
     }
-    
+
     private void copyAssetToPublic(String assetPath, String destRelativePath) {
         try {
             InputStream is = context.getAssets().open(assetPath);
