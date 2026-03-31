@@ -1,0 +1,7 @@
+<!-- 【占位-启动动画SVG】请替换为您的SVG动画文件 -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="40" fill="#2196F3">
+        <animate attributeName="r" values="40;45;40" dur="1s" repeatCount="indefinite"/>
+    </circle>
+    <text x="50" y="55" text-anchor="middle" fill="white" font-size="20">MHO</text>
+</svg>

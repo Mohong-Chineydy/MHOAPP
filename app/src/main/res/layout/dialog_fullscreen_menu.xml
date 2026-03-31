@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 【占位-全屏菜单布局】双指下滑呼出的全屏功能菜单 -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E6000000">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="32dp"
+        android:paddingTop="64dp"
+        android:paddingBottom="64dp">
+        
+        <!-- 当前页面URL -->
+        <TextView
+            android:id="@+id/tv_current_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:paddingBottom="32dp" />
+        
+        <!-- URL输入行 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="24dp">
+            
+            <EditText
+                android:id="@+id/et_url"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="输入网址"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#88FFFFFF"
+                android:background="#33FFFFFF"
+                android:padding="12dp"
+                android:singleLine="true"
+                android:layout_marginEnd="16dp" />
+            
+            <Button
+                android:id="@+id/btn_go"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="前往" />
+        </LinearLayout>
+        
+        <!-- 按钮行1：后退/前进/刷新/主页 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp">
+            
+            <Button
+                android:id="@+id/btn_back"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="后退"
+                android:layout_marginEnd="8dp" />
+            
+            <Button
+                android:id="@+id/btn_forward"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="前进"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+            
+            <Button
+                android:id="@+id/btn_refresh"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="刷新"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+            
+            <Button
+                android:id="@+id/btn_home"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="主页"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+        
+        <!-- 按钮行2：分享/标签管理/全屏 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp">
+            
+            <Button
+                android:id="@+id/btn_share"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="分享"
+                android:layout_marginEnd="8dp" />
+            
+            <Button
+                android:id="@+id/btn_tab_manager"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="标签管理"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+            
+            <Button
+                android:id="@+id/btn_fullscreen"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="全屏"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+        
+        <!-- 按钮行3：设置/主题/Cookie -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="32dp">
+            
+            <Button
+                android:id="@+id/btn_settings"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="设置"
+                android:layout_marginEnd="8dp" />
+            
+            <Button
+                android:id="@+id/btn_theme"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="主题"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp" />
+            
+            <Button
+                android:id="@+id/btn_cookie"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Cookie"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+        
+        <!-- 字体大小调节 -->
+        <TextView
+            android:id="@+id/tv_font_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="字体大小: 100%"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:paddingBottom="16dp" />
+        
+        <SeekBar
+            android:id="@+id/sb_font_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="150"
+            android:progress="50"
+            android:paddingBottom="32dp" />
+        
+        <!-- 关闭按钮 -->
+        <Button
+            android:id="@+id/btn_close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="关闭菜单"
+            android:layout_marginTop="16dp" />
+        
+    </LinearLayout>
+    
+</ScrollView>
